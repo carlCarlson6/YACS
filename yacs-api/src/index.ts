@@ -1,8 +1,8 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import projectRoutes from './routes/projects';
 import { errorHandler } from './middlewares/errorHandler';
+import projectRoutes from './routes/projects';
 
 dotenv.config();
 
