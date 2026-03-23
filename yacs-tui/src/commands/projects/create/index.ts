@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { initProject, uploadProjectFiles, completeProjectInit } from "../api/projects";
-import { listProjects } from "../api/projects";
-import { fileExists, getAllFiles } from "../utils/file";
+import { fileExists, getAllFiles } from "../../../utils/file";
+import { completeProjectInit, initProject, uploadProjectFiles } from "./api";
 
 /**
  * Generate a random project name
@@ -36,30 +35,7 @@ function generateRandomProjectName(): string {
   return `${adjective}-${noun}-${number}`;
 }
 
-export async function handleProjectCommand(args: string[]): Promise<void> {
-  const [action, ...actionArgs] = args;
-
-  if (!action) {
-    console.error("❌ No action specified. Usage: project <create|list> [options]");
-    process.exit(1);
-  }
-
-  switch (action) {
-    case "create":
-      await handleProjectCreate(actionArgs);
-      break;
-    case "list":
-      await handleProjectList();
-      break;
-    default:
-      console.error(
-        `❌ Unknown action '${action}'. Available actions: create, list`
-      );
-      process.exit(1);
-  }
-}
-
-async function handleProjectCreate(args: string[]): Promise<void> {
+export async function handleProjectCreate(args: string[]): Promise<void> {
   const projectNameArg = args[0];
   const buildPathArg = args[1];
 
@@ -116,29 +92,6 @@ async function handleProjectCreate(args: string[]): Promise<void> {
     console.log(`   URL: ${project.url}`);
   } catch (error) {
     console.error("❌ Failed to create project:", error);
-    process.exit(1);
-  }
-}
-
-async function handleProjectList(): Promise<void> {
-  try {
-    console.log(`📚 Fetching projects...`);
-    const projects = await listProjects();
-
-    if (projects.length === 0) {
-      console.log("ℹ️  No projects found.");
-      return;
-    }
-
-    console.log(`✅ Found ${projects.length} project(s):\n`);
-    projects.forEach((project, index) => {
-      console.log(`${index + 1}. ${project.name}`);
-      console.log(`   ID: ${project.id}`);
-      console.log(`   Status: ${project.status}`);
-      console.log(`   Created: ${project.createdAt}\n`);
-    });
-  } catch (error) {
-    console.error("❌ Failed to fetch projects:", error);
     process.exit(1);
   }
 }

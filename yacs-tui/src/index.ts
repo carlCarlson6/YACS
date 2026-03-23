@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-
+import { config } from "dotenv";
+config(); // Load .env file
 import { helpDisplay } from "./commands/help";
-import { handleProjectCommand } from "./commands/project";
+import { handleProjectCommand } from "./commands/projects";
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);

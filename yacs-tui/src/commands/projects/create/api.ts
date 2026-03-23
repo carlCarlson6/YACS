@@ -2,16 +2,8 @@
 // TODO: Replace with actual API calls later
 
 import path from "path";
-import { config } from "../config";
-
-export interface Project {
-  id: string;
-  name: string;
-  buildPath: string;
-  url: string;
-  createdAt: string;
-  status: string;
-}
+import { config } from "../../../config";
+import { Project } from "../project";
 
 export interface InitProjectResponse {
   projectId: string;
@@ -109,58 +101,5 @@ export async function completeProjectInit(projectId: string): Promise<Project> {
     return data;
   } catch (error) {
     throw new Error(`Failed to complete project initialization: ${error}`);
-  }
-}
-
-/**
- * Mock API call to create a new project (deprecated - use init/upload/complete flow instead)
- */
-export async function createProject(
-  projectName: string,
-  buildPath?: string
-): Promise<Project> {
-  // Use ./dist relative to cwd if not provided or empty
-  const finalBuildPath = buildPath && buildPath.trim() ? buildPath.trim() : "./dist";
-  const resolvedBuildPath = path.resolve(process.cwd(), finalBuildPath);
-
-  // Generate fake URL
-  const fakeUrl = `${config.api.baseUrl}/api/projects/${projectName.toLowerCase().replace(/\s+/g, "-")}`;
-
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Mock response
-  return {
-    id: `proj_${Date.now()}`,
-    name: projectName,
-    buildPath: resolvedBuildPath,
-    url: fakeUrl,
-    createdAt: new Date().toISOString(),
-    status: "active",
-  };
-}
-
-/**
- * Mock API call to get list of user projects
- */
-export async function listProjects(): Promise<Project[]> {
-  try {
-    const response = await fetch(`${config.api.baseUrl}/api/projects`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `API error: ${response.status} ${response.statusText}`
-      );
-    }
-
-    const data = await response.json() as Project[];
-    return data;
-  } catch (error) {
-    throw new Error(`Failed to fetch projects: ${error}`);
   }
 }
