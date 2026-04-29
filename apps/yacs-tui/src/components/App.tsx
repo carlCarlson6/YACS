@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "ink";
+import { Box, Text } from "ink";
 import MainMenu from "./MainMenu.js";
 import ProjectsList from "./ProjectsList.js";
 import Deploy from "./Deploy.js";
@@ -28,7 +28,13 @@ const App: React.FC<AppProps> = ({ apiUrl }) => {
     }
   };
 
-  return <Box flexDirection="column" padding={1}>{renderView()}</Box>;
+  return (
+    <Box flexDirection="column" padding={1}>
+      <Text color="green" bold>═══════════════════════════════════════</Text>
+      {renderView()}
+      <Text color="green" bold>═══════════════════════════════════════</Text>
+    </Box>
+  );
 };
 
 export default App;

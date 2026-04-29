@@ -1,0 +1,26 @@
+# YACS Plans
+
+This directory contains implementation plans for the YACS (Yet Another Cloud Service) project.
+
+## Plans
+
+| Plan | Description | Status |
+|------|-------------|--------|
+| [PLAN-001](./PLAN-001-scaffold-initial-structure.md) | Scaffold initial project structure with monorepo setup | Completed |
+| [PLAN-002](./PLAN-002-tui-interactive-selector.md) | TUI interactive selector with menu navigation | Completed |
+| [PLAN-003](./PLAN-003-tui-numbered-input.md) | TUI numbered input for menu selection | Completed |
+| [PLAN-004](./PLAN-004-backend-refactor-logging-tui-improvements.md) | Backend refactor (route splitting), observability logging, TUI input fixes and cyberpunk theme | Completed |
+
+## Plan Naming Convention
+
+Plans follow the naming pattern: `PLAN-XXX-<description>.md`
+
+- `XXX` - Zero-padded number (starting from 001)
+- `<description>` - Lowercase with hyphens, describing the main goal
+
+## Creating a New Plan
+
+1. Check the next available plan number
+2. Create `PLAN-XXX-description.md` following the existing format
+3. Update this README to include the new plan
+4. Include: Goal, User Preferences, File Changes, Implementation Steps, Status

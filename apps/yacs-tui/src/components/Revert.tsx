@@ -12,11 +12,14 @@ const Revert: React.FC<RevertProps> = ({ apiUrl, onBack }) => {
   const [deploymentId, setDeploymentId] = React.useState("");
   const [message, setMessage] = React.useState("");
 
-  useInput((_input, key) => {
-    if (key.escape && step !== "reverting") {
-      onBack();
-    }
-  });
+  useInput(
+    (_input, key) => {
+      if (key.escape) {
+        onBack();
+      }
+    },
+    { isActive: step !== "input" }
+  );
 
   const startRevert = (id: string) => {
     if (!id) return;
@@ -41,8 +44,8 @@ const Revert: React.FC<RevertProps> = ({ apiUrl, onBack }) => {
   if (step === "input") {
     return (
       <Box flexDirection="column">
-        <Text bold>Revert Deployment</Text>
-        <Text>Enter deployment ID:</Text>
+        <Text bold color="green">Revert Deployment</Text>
+        <Text color="cyan">Enter deployment ID:</Text>
         <TextInput
           value={deploymentId}
           onChange={setDeploymentId}
@@ -53,7 +56,7 @@ const Revert: React.FC<RevertProps> = ({ apiUrl, onBack }) => {
     );
   }
 
-  if (step === "reverting") return <Text>Reverting deployment {deploymentId}...</Text>;
+  if (step === "reverting") return <Text color="yellow">Reverting deployment {deploymentId}...</Text>;
   if (step === "error") return <Text color="red">Error: {message}</Text>;
   return (
     <Box flexDirection="column">

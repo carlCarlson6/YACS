@@ -45,32 +45,35 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ apiUrl, onBack }) => {
       });
   };
 
-  useInput((input, key) => {
-    if (key.escape && step !== "updating") {
-      if (step === "done" || step === "error") {
-        setStep("input");
-        setMessage("");
-      } else {
-        onBack();
+  useInput(
+    (input, key) => {
+      if (key.escape) {
+        if (step === "done" || step === "error") {
+          setStep("input");
+          setMessage("");
+        } else {
+          onBack();
+        }
       }
-    }
-    if (key.tab && step === "input") {
-      const fields: InputField[] = ["projectId", "name", "status", "submit"];
-      const idx = fields.indexOf(currentField);
-      setCurrentField(fields[(idx + 1) % fields.length]);
-    }
-    if (key.return && step === "input" && currentField === "submit") {
-      handleSubmit();
-    }
-  });
+      if (key.tab && step === "input") {
+        const fields: InputField[] = ["projectId", "name", "status", "submit"];
+        const idx = fields.indexOf(currentField);
+        setCurrentField(fields[(idx + 1) % fields.length]);
+      }
+      if (key.return && step === "input" && currentField === "submit") {
+        handleSubmit();
+      }
+    },
+    { isActive: step !== "input" || currentField === "submit" }
+  );
 
   if (step === "input") {
     return (
       <Box flexDirection="column">
-        <Text bold>Update Project</Text>
+        <Text bold color="green">Update Project</Text>
         <Box>
-          <Text>{currentField === "projectId" ? ">" : " "}</Text>
-          <Text>Project ID: </Text>
+          <Text color={currentField === "projectId" ? "cyan" : undefined}>{currentField === "projectId" ? ">" : " "}</Text>
+          <Text color="cyan">Project ID: </Text>
           {currentField === "projectId" ? (
             <TextInput value={projectId} onChange={setProjectId} onSubmit={() => setCurrentField("name")} />
           ) : (
@@ -78,8 +81,8 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ apiUrl, onBack }) => {
           )}
         </Box>
         <Box>
-          <Text>{currentField === "name" ? ">" : " "}</Text>
-          <Text>Name (optional): </Text>
+          <Text color={currentField === "name" ? "cyan" : undefined}>{currentField === "name" ? ">" : " "}</Text>
+          <Text color="cyan">Name (optional): </Text>
           {currentField === "name" ? (
             <TextInput value={name} onChange={setName} onSubmit={() => setCurrentField("status")} />
           ) : (
@@ -87,8 +90,8 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ apiUrl, onBack }) => {
           )}
         </Box>
         <Box>
-          <Text>{currentField === "status" ? ">" : " "}</Text>
-          <Text>Status (optional): </Text>
+          <Text color={currentField === "status" ? "cyan" : undefined}>{currentField === "status" ? ">" : " "}</Text>
+          <Text color="cyan">Status (optional): </Text>
           {currentField === "status" ? (
             <TextInput value={status} onChange={setStatus} onSubmit={() => setCurrentField("submit")} />
           ) : (
@@ -96,7 +99,7 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ apiUrl, onBack }) => {
           )}
         </Box>
         <Box>
-          <Text>{currentField === "submit" ? ">" : " "}</Text>
+          <Text color={currentField === "submit" ? "cyan" : undefined}>{currentField === "submit" ? ">" : " "}</Text>
           <Text color={currentField === "submit" ? "green" : undefined}>[Submit - press Enter]</Text>
         </Box>
         <Text dimColor>Press tab to switch fields, enter to submit, escape to go back</Text>
@@ -104,7 +107,7 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({ apiUrl, onBack }) => {
     );
   }
 
-  if (step === "updating") return <Text>Updating project {projectId}...</Text>;
+  if (step === "updating") return <Text color="yellow">Updating project {projectId}...</Text>;
   if (step === "error") return <Box flexDirection="column"><Text color="red">Error: {message}</Text><Text dimColor>Press escape to go back</Text></Box>;
   return (
     <Box flexDirection="column">

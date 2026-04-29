@@ -3,7 +3,6 @@ import { Box, Text, useInput } from "ink";
 import TextInput from "ink-text-input";
 import { spawn } from "child_process";
 import { existsSync } from "fs";
-import { readFileSync } from "fs";
 import { join } from "path";
 
 interface DeployProps {
@@ -19,11 +18,15 @@ const Deploy: React.FC<DeployProps> = ({ apiUrl, onBack }) => {
   const [log, setLog] = React.useState<string[]>([]);
   const [error, setError] = React.useState<string | null>(null);
 
-  useInput((_input, key) => {
-    if (key.escape && step !== "lint" && step !== "test" && step !== "build" && step !== "upload") {
-      onBack();
-    }
-  });
+  // Only activate escape handler when not in input step (TextInput handles its own input)
+  useInput(
+    (_input, key) => {
+      if (key.escape) {
+        onBack();
+      }
+    },
+    { isActive: step !== "input" }
+  );
 
   const startDeploy = (dir: string) => {
     if (!existsSync(dir)) {
@@ -96,8 +99,8 @@ const Deploy: React.FC<DeployProps> = ({ apiUrl, onBack }) => {
   if (step === "input") {
     return (
       <Box flexDirection="column">
-        <Text bold>Deploy Project</Text>
-        <Text>Enter project directory:</Text>
+        <Text bold color="green">Deploy Project</Text>
+        <Text color="cyan">Enter project directory:</Text>
         <TextInput
           value={projectDir}
           onChange={setProjectDir}
@@ -110,7 +113,7 @@ const Deploy: React.FC<DeployProps> = ({ apiUrl, onBack }) => {
 
   return (
     <Box flexDirection="column">
-      <Text bold>Deploying: {projectDir}</Text>
+      <Text bold color="green">Deploying: {projectDir}</Text>
       <Box>
         <Text color={step === "lint" ? "yellow" : step === "done" || ["test", "build", "upload", "done"].includes(step) ? "green" : "gray"}>
           {step === "lint" ? "▸ " : "  "}lint
@@ -129,7 +132,7 @@ const Deploy: React.FC<DeployProps> = ({ apiUrl, onBack }) => {
       {step === "done" && <Text color="green">Deploy complete! Press escape to go back</Text>}
       <Box flexDirection="column">
         {log.map((line, i) => (
-          <Text key={i}>{line}</Text>
+          <Text key={i} color="gray">{line}</Text>
         ))}
       </Box>
     </Box>

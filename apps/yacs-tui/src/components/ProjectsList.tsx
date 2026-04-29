@@ -30,16 +30,16 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ apiUrl, onBack }) => {
     }
   });
 
-  if (loading) return <Text>Loading projects...</Text>;
+  if (loading) return <Text color="cyan">Loading projects...</Text>;
   if (error) return <Text color="red">Error: {error}</Text>;
-  if (projects.length === 0) return <Text>No projects found.</Text>;
+  if (projects.length === 0) return <Text color="yellow">No projects found.</Text>;
 
   return (
     <Box flexDirection="column">
-      <Text bold>Projects</Text>
+      <Text bold color="green">Projects</Text>
       {projects.map((p) => (
         <Box key={p.id}>
-          <Text>{p.name}</Text>
+          <Text color="cyan">{p.name}</Text>
           <Text color={p.status === "running" ? "green" : "yellow"}> [{p.status}]</Text>
         </Box>
       ))}
