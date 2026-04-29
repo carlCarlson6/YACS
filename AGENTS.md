@@ -5,10 +5,10 @@
 | Package | Location | Purpose |
 |---|---|---|
 | `@yacs/types` | `shared/types/` | Shared TypeScript interfaces |
-| `@yacs/api` | `packages/yacs-api/` | Express REST API |
-| `@yacs/tui` | `packages/yacs-tui/` | Ink + React TUI CLI |
+| `@yacs/api` | `apps/yacs-api/` | Express REST API |
+| `@yacs/tui` | `apps/yacs-tui/` | Ink + React TUI CLI |
 
-Monorepo managed by **npm workspaces**. Root `package.json` lists `"packages/*", "shared/*"`.
+Monorepo managed by **npm workspaces**. Root `package.json` lists `"apps/*", "shared/*"`.
 
 ## Commands
 
@@ -68,7 +68,7 @@ For vite-based projects only. The TUI executes in the target project directory:
 
 ## Adding a New Package
 
-1. Create directory under `packages/` or `shared/`
+1. Create directory under `apps/` or `shared/`
 2. Add `package.json` with `"name": "@yacs/<name>"`
 3. Add `tsconfig.json` extending `../../tsconfig.base.json`
 4. If depending on `@yacs/types`, add reference in tsconfig

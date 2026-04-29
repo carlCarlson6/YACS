@@ -2,7 +2,7 @@
   "name": "yacs",
   "private": true,
   "workspaces": [
-    "packages/*",
+    "apps/*",
     "shared/*"
   ],
   "scripts": {
