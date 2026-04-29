@@ -10,6 +10,7 @@ This directory contains implementation plans for the YACS (Yet Another Cloud Ser
 | [PLAN-002](./PLAN-002-tui-interactive-selector.md) | TUI interactive selector with menu navigation | Completed |
 | [PLAN-003](./PLAN-003-tui-numbered-input.md) | TUI numbered input for menu selection | Completed |
 | [PLAN-004](./PLAN-004-backend-refactor-logging-tui-improvements.md) | Backend refactor (route splitting), observability logging, TUI input fixes and cyberpunk theme | Completed |
+| [PLAN-005](./PLAN-005-reimplement-tui-with-opentui.md) | Reimplement TUI with OpenTUI library (migrate from Ink to OpenTUI) | Pending |
 
 ## Plan Naming Convention
 
