@@ -1,40 +1,34 @@
-import React from "react";
-import { Box, Text } from "ink";
-import { Result as MeowResult } from "meow";
+import React, { useState } from "react";
+import { Box } from "ink";
+import MainMenu from "./MainMenu.js";
 import ProjectsList from "./ProjectsList.js";
 import Deploy from "./Deploy.js";
 import Revert from "./Revert.js";
 import ProjectUpdate from "./ProjectUpdate.js";
 
 interface AppProps {
-  cli: MeowResult<any>;
+  apiUrl: string;
 }
 
-const App: React.FC<AppProps> = ({ cli }) => {
-  const [input] = cli.input as string[];
+const App: React.FC<AppProps> = ({ apiUrl }) => {
+  const [view, setView] = useState<"menu" | "projects" | "deploy" | "revert" | "update">("menu");
 
-  const renderCommand = () => {
-    switch (input) {
+  const renderView = () => {
+    switch (view) {
+      case "menu":
+        return <MainMenu onSelect={setView} />;
       case "projects":
-        return <ProjectsList apiUrl={cli.flags.apiUrl as string | undefined} />;
+        return <ProjectsList apiUrl={apiUrl} onBack={() => setView("menu")} />;
       case "deploy":
-        return <Deploy projectDir={(cli.input as string[])[1]} apiUrl={cli.flags.apiUrl as string | undefined} />;
+        return <Deploy apiUrl={apiUrl} onBack={() => setView("menu")} />;
       case "revert":
-        return <Revert deploymentId={(cli.input as string[])[1]} apiUrl={cli.flags.apiUrl as string | undefined} />;
-      case "project":
-        return <ProjectUpdate projectId={(cli.input as string[])[1]} flags={cli.flags} apiUrl={cli.flags.apiUrl as string | undefined} />;
-      default:
-        return (
-          <Box flexDirection="column">
-            <Text bold>YACS - Yet Another Cloud Service</Text>
-            <Text></Text>
-            <Text>Run {cli.help}</Text>
-          </Box>
-        );
+        return <Revert apiUrl={apiUrl} onBack={() => setView("menu")} />;
+      case "update":
+        return <ProjectUpdate apiUrl={apiUrl} onBack={() => setView("menu")} />;
     }
   };
 
-  return <Box flexDirection="column" padding={1}>{renderCommand()}</Box>;
+  return <Box flexDirection="column" padding={1}>{renderView()}</Box>;
 };
 
 export default App;

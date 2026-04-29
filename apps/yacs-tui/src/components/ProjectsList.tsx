@@ -1,12 +1,12 @@
 import React from "react";
-import { Box, Text, useApp, useInput } from "ink";
+import { Box, Text, useInput } from "ink";
 
 interface ProjectsListProps {
   apiUrl?: string;
+  onBack: () => void;
 }
 
-const ProjectsList: React.FC<ProjectsListProps> = ({ apiUrl }) => {
-  const { exit } = useApp();
+const ProjectsList: React.FC<ProjectsListProps> = ({ apiUrl, onBack }) => {
   const [projects, setProjects] = React.useState<{ id: string; name: string; status: string }[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -25,8 +25,8 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ apiUrl }) => {
   }, [apiUrl]);
 
   useInput((_input, key) => {
-    if (key.return === true || key.escape) {
-      exit();
+    if (key.escape) {
+      onBack();
     }
   });
 
@@ -43,6 +43,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ apiUrl }) => {
           <Text color={p.status === "running" ? "green" : "yellow"}> [{p.status}]</Text>
         </Box>
       ))}
+      <Text dimColor>Press escape to go back</Text>
     </Box>
   );
 };

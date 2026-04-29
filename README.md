@@ -58,4 +58,4 @@ RESTful API that powers both the web frontend and TUI.
 | ID | Name | Status | Description |
 |---|---|---|---|
 | [PLAN-001](plans/PLAN-001-scaffold-initial-structure.md) | Scaffold Initial Structure | completed | Scaffold initial monorepo structure |
-| [PLAN-002](plans/PLAN-002-tui-interactive-selector.md) | TUI Interactive Selector | in-progress | Replace CLI commands with interactive menu selector |
+| [PLAN-002](plans/PLAN-002-tui-interactive-selector.md) | TUI Interactive Selector | completed | Replace CLI commands with interactive menu selector |

@@ -107,9 +107,17 @@ Add `onBack: () => void` prop and interactive text inputs for required arguments
 `yacs` → Menu selector → Pick command → Enter args via prompts → Execute → Return to menu → Repeat/Exit (Ctrl+C)
 
 ## Implementation Steps
-1. Install new dependencies
-2. Update `cli.ts`
-3. Create `MainMenu.tsx`
-4. Update `App.tsx`
-5. Refactor existing components with `onBack` and text inputs
-6. Test with `npm run dev -w @yacs/tui`
+1. ~~Install new dependencies~~ ✅
+2. ~~Update `cli.ts`~~ ✅
+3. ~~Create `MainMenu.tsx`~~ ✅
+4. ~~Update `App.tsx`~~ ✅
+5. ~~Refactor existing components with `onBack` and text inputs~~ ✅
+6. ~~Test with `npm run dev -w @yacs/tui`~~ ✅
+
+## Status: Completed
+- Dependencies installed: `ink-select-input`, `ink-text-input`
+- Removed: `meow`
+- Created: `MainMenu.tsx` with interactive selector
+- Updated: `App.tsx` with view state management
+- Refactored: All components with `onBack` prop and interactive inputs
+- Build: TypeScript compilation successful
