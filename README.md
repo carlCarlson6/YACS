@@ -57,4 +57,4 @@ RESTful API that powers both the web frontend and TUI.
 
 | ID | Status | Description |
 |---|---|---|
-| [PLAN-001](plans/PLAN-001-scaffold-initial-structure.md) | pending | Scaffold initial monorepo structure |
+| [PLAN-001](plans/PLAN-001-scaffold-initial-structure.md) | completed | Scaffold initial monorepo structure |
