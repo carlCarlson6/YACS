@@ -59,3 +59,4 @@ RESTful API that powers both the web frontend and TUI.
 |---|---|---|---|
 | [PLAN-001](plans/PLAN-001-scaffold-initial-structure.md) | Scaffold Initial Structure | completed | Scaffold initial monorepo structure |
 | [PLAN-002](plans/PLAN-002-tui-interactive-selector.md) | TUI Interactive Selector | completed | Replace CLI commands with interactive menu selector |
+| [PLAN-003](plans/PLAN-003-tui-numbered-input.md) | TUI Numbered Input | pending | Replace arrow key navigation with numbered input (1-4) |
