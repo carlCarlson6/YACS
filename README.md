@@ -52,3 +52,9 @@ RESTful API that powers both the web frontend and TUI.
 - TypeScript
 - Node
 - express
+
+## Plans
+
+| ID | Status | Description |
+|---|---|---|
+| [PLAN-001](plans/PLAN-001-scaffold-initial-structure.md) | pending | Scaffold initial monorepo structure |
