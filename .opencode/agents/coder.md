@@ -11,8 +11,8 @@ permission:
   list: allow
   bash: ask
   task: allow
-  webfetch: deny
-  websearch: deny
+  webfetch: allow
+  websearch: allow
   codesearch: deny
   todowrite: allow
   lsp: allow
@@ -33,7 +33,7 @@ YACS is a cloud service platform for deploying web pages, with these components:
 - **TypeScript** — NodeNext modules, strict mode, composite projects
 - **tsx** — zero-config TS execution (dev watch, no ts-node needed)
 - **Express + cors** — API server (port 3000, or $PORT)
-- **ink + React** — TUI rendering
+- **ink + React** — TUI rendering, [documentation](https://raw.githubusercontent.com/vadimdemedes/ink/refs/heads/master/readme.md)
 - **meow** — CLI argument parsing in tui
 - **Zod** — schema validation and type inference
 - **npm workspaces** — monorepo management
