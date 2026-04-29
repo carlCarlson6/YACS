@@ -4,7 +4,7 @@
 
 | Package | Location | Purpose |
 |---|---|---|
-| `@yacs/types` | `shared/types/` | Shared TypeScript interfaces |
+| `@yacs/schemas` | `shared/schemas/` | Zod schemas + inferred types |
 | `@yacs/api` | `apps/yacs-api/` | Express REST API |
 | `@yacs/tui` | `apps/yacs-tui/` | Ink + React TUI CLI |
 
@@ -20,8 +20,8 @@ npm run dev -w @yacs/api     # dev watch mode (tsx watch)
 npm run start -w @yacs/api   # run built output
 ```
 
-**Dependency order for builds:** `@yacs/types` → `@yacs/api`, `@yacs/tui`
-Both api and tui reference types via tsconfig `references`.
+**Dependency order for builds:** `@yacs/schemas` → `@yacs/api`, `@yacs/tui`
+Both api and tui reference schemas via tsconfig `references`.
 
 ## Tech Stack
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "ink";
-import { ProjectStatus, UpdateProjectInput } from "@yacs/types";
+import { ProjectStatus, UpdateProjectInput } from "@yacs/schemas";
 
 interface ProjectUpdateProps {
   projectId?: string;

@@ -11,13 +11,14 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
-    "express": "^4.21.2",
+    "@yacs/schemas": "*",
     "cors": "^2.8.5",
-    "@yacs/types": "*"
+    "express": "^4.21.2"
   },
   "devDependencies": {
-    "tsx": "^4.19.2",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/cors": "^2.8.17"
+    "@types/node": "^25.6.0",
+    "tsx": "^4.19.2"
   }
 }

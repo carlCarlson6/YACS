@@ -8,7 +8,10 @@ import {
   UpdateProjectInput,
   DeployRequest,
   ApiError,
-} from "@yacs/types";
+  createProjectInputSchema,
+  updateProjectInputSchema,
+  deployRequestSchema,
+} from "@yacs/schemas";
 
 interface ProjectParams {
   id: string;
@@ -44,12 +47,13 @@ app.get("/projects", (_req: Request, res: Response<Project[]>) => {
   res.json(Array.from(projects.values()));
 });
 
-app.post("/projects", (req: Request<{}, {}, CreateProjectInput>, res: Response<Project | ApiError>) => {
-  const { name } = req.body;
-  if (!name || name.trim() === "") {
-    return sendError(res, 400, "VALIDATION_ERROR", "Project name is required");
+app.post("/projects", (req: Request<{}, {}, unknown>, res: Response<Project | ApiError>) => {
+  const parsed = createProjectInputSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return sendError(res, 400, "VALIDATION_ERROR", parsed.error.errors[0].message);
   }
 
+  const { name } = parsed.data;
   const id = generateId();
   const project: Project = {
     id,
@@ -72,17 +76,22 @@ app.get("/projects/:id", (_req: Request<ProjectParams>, res: Response<Project | 
   res.json(project);
 });
 
-app.patch("/projects/:id", (req: Request<ProjectParams, {}, UpdateProjectInput>, res: Response<Project | ApiError>) => {
+app.patch("/projects/:id", (req: Request<ProjectParams, {}, unknown>, res: Response<Project | ApiError>) => {
   const project = projects.get(req.params.id);
   if (!project) {
     return sendError(res, 404, "NOT_FOUND", "Project not found");
   }
 
-  if (req.body.name !== undefined) {
-    project.name = req.body.name;
+  const parsed = updateProjectInputSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return sendError(res, 400, "VALIDATION_ERROR", parsed.error.errors[0].message);
   }
-  if (req.body.status !== undefined) {
-    project.status = req.body.status as ProjectStatus;
+
+  if (parsed.data.name !== undefined) {
+    project.name = parsed.data.name;
+  }
+  if (parsed.data.status !== undefined) {
+    project.status = parsed.data.status as ProjectStatus;
   }
   project.updatedAt = now();
 
@@ -104,17 +113,22 @@ app.get("/projects/:id/deployments", (_req: Request<ProjectParams>, res: Respons
   res.json(projectDeploymentsList);
 });
 
-app.post("/projects/:id/deployments", (req: Request<ProjectParams, {}, DeployRequest>, res: Response<Deployment | ApiError>) => {
+app.post("/projects/:id/deployments", (req: Request<ProjectParams, {}, unknown>, res: Response<Deployment | ApiError>) => {
   const project = projects.get(req.params.id);
   if (!project) {
     return sendError(res, 404, "NOT_FOUND", "Project not found");
+  }
+
+  const parsed = deployRequestSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return sendError(res, 400, "VALIDATION_ERROR", parsed.error.errors[0].message);
   }
 
   const deploymentId = generateId();
   const deployment: Deployment = {
     id: deploymentId,
     projectId: req.params.id,
-    buildOutput: req.body.buildOutput || "",
+    buildOutput: parsed.data.buildOutput,
     url: `https://${project.name}-${deploymentId}.yacs.local`,
     createdAt: now(),
   };

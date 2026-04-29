@@ -14,13 +14,14 @@
     "clean": "rm -rf dist *.tsbuildinfo"
   },
   "dependencies": {
+    "@yacs/schemas": "*",
     "ink": "^5.2.1",
-    "react": "^18.3.1",
     "meow": "^13.2.0",
-    "@yacs/types": "*"
+    "react": "^18.3.1"
   },
   "devDependencies": {
-    "tsx": "^4.19.2",
-    "@types/react": "^18.3.12"
+    "@types/node": "^25.6.0",
+    "@types/react": "^18.3.12",
+    "tsx": "^4.19.2"
   }
 }

@@ -7,6 +7,6 @@
   },
   "include": ["src"],
   "references": [
-    { "path": "../../shared/types" }
+    { "path": "../../shared/schemas" }
   ]
 }
