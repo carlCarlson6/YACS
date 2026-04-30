@@ -81,14 +81,41 @@ apps/yacs-tui/src/
 
 RESTful API consumed by the TUI.
 
+**Architecture:** vertical slice / screaming architecture. Feature folders expose the use cases directly.
+
+```
+apps/yacs-api/src/
+├── infrastructure/
+│   ├── db/
+│   ├── http/
+│   └── logger.ts
+├── domain/
+└── features/
+    ├── projects/
+    │   ├── create-project.ts
+    │   ├── create-project-deployment.ts
+    │   ├── delete-project.ts
+    │   ├── get-project.ts
+    │   ├── list-project-deployments.ts
+    │   ├── list-projects.ts
+    │   ├── update-project.ts
+    │   └── routes.ts
+    └── deployments/
+        ├── activate-deployment.ts
+        ├── revert-deployment.ts
+        └── routes.ts
+```
+
 **Endpoints:**
 - `GET /projects` · `POST /projects` · `GET /projects/:id` · `PATCH /projects/:id` · `DELETE /projects/:id`
 - `GET /projects/:id/deployments` · `POST /projects/:id/deployments`
 - `POST /deployments/:id/activate` · `POST /deployments/:id/revert`
 
-Storage is in-memory (`Map`) — data persists only while the server runs.
+Storage is PostgreSQL via Drizzle ORM.
 
-**Tech stack:** TypeScript, Node, Express, cors.
+**Tech stack:** TypeScript, Node, Express, cors, PostgreSQL, Drizzle ORM.
+
+**Local dev:** start PostgreSQL with `docker compose up -d` and set `DATABASE_URL` in `apps/yacs-api/.env`.
 
 ### `@yacs/schemas` — Shared schemas
 **Location:** `shared/schemas/`
@@ -102,4 +129,5 @@ npm install                  # install all workspace deps
 npm run build                # build all packages
 npm run dev -w @yacs/api     # start API on :3000 (override with $PORT)
 npm run dev -w @yacs/tui     # start TUI (defaults to http://localhost:3000, override with $YACS_API_URL)
+docker compose up -d         # start local PostgreSQL
 ```

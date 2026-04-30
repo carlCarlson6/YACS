@@ -4,5 +4,6 @@ dist/
 .env
 .env.*
 !.env.example
+!apps/yacs-api/.env.example
 .DS_Store
 .agents
