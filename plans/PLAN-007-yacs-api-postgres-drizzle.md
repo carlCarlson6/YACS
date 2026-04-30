@@ -9,7 +9,7 @@ Move `@yacs/api` from in-memory storage to a real PostgreSQL database managed th
 3. **Scope**: Backend only, no implementation yet
 4. **Local dev**: Docker Compose for Postgres
 5. **Schema**: Explicit tables and relations for projects and deployments
-6. **Config**: Add `.env` files needed for local development and track the template files in git
+6. **Config**: Add `.env` files needed for local development and track the template files in git, DO NOT TRACK .ENV FILE ON GIT
 
 ## Schema Design
 
