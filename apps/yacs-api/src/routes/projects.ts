@@ -50,6 +50,7 @@ export function createProjectsRouter(deps: {
       id,
       name: name.trim(),
       status: "running",
+      currentDeploymentId: null,
       createdAt: now(),
       updatedAt: now(),
     };
@@ -95,6 +96,24 @@ export function createProjectsRouter(deps: {
     res.json(project);
   });
 
+  router.delete("/:id", (req: Request<ProjectParams>, res: Response<{ deleted: true } | ApiError>) => {
+    const project = projects.get(req.params.id);
+    if (!project) {
+      log(`Project not found for delete: ${req.params.id}`);
+      return sendError(res, 404, "NOT_FOUND", "Project not found");
+    }
+
+    const depIds = projectDeployments.get(req.params.id) || [];
+    for (const depId of depIds) {
+      deployments.delete(depId);
+    }
+    projectDeployments.delete(req.params.id);
+    projects.delete(req.params.id);
+
+    log(`Project deleted: ${req.params.id} (${depIds.length} deployments removed)`);
+    res.json({ deleted: true });
+  });
+
   router.get("/:id/deployments", (_req: Request<ProjectParams>, res: Response<Deployment[] | ApiError>) => {
     const project = projects.get(_req.params.id);
     if (!project) {
@@ -138,7 +157,11 @@ export function createProjectsRouter(deps: {
     ids.push(deploymentId);
     projectDeployments.set(req.params.id, ids);
 
-    log(`Deployment created: ${deploymentId} for project ${req.params.id}`);
+    project.currentDeploymentId = deploymentId;
+    project.updatedAt = now();
+    projects.set(req.params.id, project);
+
+    log(`Deployment created: ${deploymentId} for project ${req.params.id} (now current)`);
     res.status(201).json(deployment);
   });
 

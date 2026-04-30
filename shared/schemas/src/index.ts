@@ -7,6 +7,7 @@ export const projectSchema = z.object({
   id: z.string(),
   name: z.string(),
   status: projectStatusSchema,
+  currentDeploymentId: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
