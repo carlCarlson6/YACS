@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "skills": {
+    "caveman": {
+      "source": "juliusbrussee/caveman",
+      "sourceType": "github",
+      "skillPath": "caveman/SKILL.md",
+      "computedHash": "a818cdc41dcfaa50dd891c5cb5e5705968338de02e7e37949ca56e8c30ad4176"
+    },
+    "clean-ddd-hexagonal": {
+      "source": "ccheney/robust-skills",
+      "sourceType": "github",
+      "skillPath": "skills/clean-ddd-hexagonal/SKILL.md",
+      "computedHash": "b9a54e257685086d0034bd8277964452b7208e2f18bf68d158996936ce667b6a"
+    },
+    "clerk-backend-api": {
+      "source": "clerk/skills",
+      "sourceType": "github",
+      "skillPath": "skills/core/clerk-backend-api/SKILL.md",
+      "computedHash": "723ee35b2727923bbc9050c103369985d3d2ced00c9d25d79ff6383a23d8fea9"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
+    "nodejs-backend-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/javascript-typescript/skills/nodejs-backend-patterns/SKILL.md",
+      "computedHash": "c6a99966c2565acc388e574039127abc770bb9a3338be761e421e16f023f702b"
+    },
+    "opentui": {
+      "source": "msmps/opentui-skill",
+      "sourceType": "github",
+      "skillPath": "skill/opentui/SKILL.md",
+      "computedHash": "2915038bb3297e759f740f9e6bfa885ed80a4a7fe945825f5874b48db9ce0fd2"
+    },
+    "typescript-expert": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/typescript-expert/SKILL.md",
+      "computedHash": "b286805fbc1e24cdbe238445c62f27889cdc48dac9dfb77fc927bd1b3c37ab2a"
+    }
+  }
+}
