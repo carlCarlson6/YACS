@@ -1,18 +1,19 @@
 {
-  "name": "yacs",
+  "name": "yet-another-cloud-service",
+  "version": "0.0.1",
   "private": true,
   "workspaces": [
     "apps/*",
     "shared/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present"
+    "build": "npm run build -w @yacs/schemas && npm run build -w @yacs/api && npm run build -w @yacs/tui",
+    "build:api": "npm run build -w @yacs/api",
+    "build:tui": "npm run build -w @yacs/tui",
+    "dev:api": "npm run dev -w @yacs/api",
+    "start:api": "npm run start -w @yacs/api"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "typescript": "^5.7.3"
+    "@types/node": "^25.6.0"
   }
 }
