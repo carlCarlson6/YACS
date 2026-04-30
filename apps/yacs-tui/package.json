@@ -3,25 +3,22 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "main": "dist/cli.js",
-  "bin": {
-    "yacs": "dist/cli.js"
-  },
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/cli.ts",
-    "build": "tsc --build",
-    "start": "node dist/cli.js",
-    "clean": "rm -rf dist *.tsbuildinfo"
+    "dev": "bun run --watch src/index.tsx",
+    "build": "bun build src/index.tsx --outdir dist --target node",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@opentui/core": "latest",
+    "@opentui/react": "latest",
     "@yacs/schemas": "*",
-    "ink": "^5.2.1",
-    "ink-text-input": "^6.0.0",
-    "react": "^18.3.1"
+    "react": ">=19.0.0"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
-    "@types/react": "^18.3.12",
-    "tsx": "^4.19.2"
+    "@types/react": "^19.0.0",
+    "typescript": "^5.7.3"
   }
 }
