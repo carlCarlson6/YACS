@@ -12,6 +12,7 @@ This directory contains implementation plans for the YACS (Yet Another Cloud Ser
 | [PLAN-004](./PLAN-004-backend-refactor-logging-tui-improvements.md) | Backend refactor (route splitting), observability logging, TUI input fixes and cyberpunk theme | Completed |
 | [PLAN-005](./PLAN-005-reimplement-tui-with-opentui.md) | Reimplement TUI with OpenTUI library (migrate from Ink to OpenTUI) | Pending |
 | [PLAN-006](./PLAN-006-tui-ux-and-vertical-slice-refactor.md) | TUI UX polish (full-screen, fatal-error popup, captured exec output, project path inputs, Ctrl+B cancel) and vertical-slice refactor | Completed |
+| [PLAN-007](./PLAN-007-yacs-api-postgres-drizzle.md) | Move `@yacs/api` to PostgreSQL with Drizzle ORM and local Docker Compose support | Pending |
 
 ## Plan Naming Convention
 
