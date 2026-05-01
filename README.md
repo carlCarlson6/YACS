@@ -107,9 +107,9 @@ apps/yacs-api/src/
 ```
 
 **Endpoints:**
-- `GET /projects` · `POST /projects` · `GET /projects/:id` · `PATCH /projects/:id` · `DELETE /projects/:id`
-- `GET /projects/:id/deployments` · `POST /projects/:id/deployments`
-- `POST /deployments/:id/activate` · `POST /deployments/:id/revert`
+- `GET /api/projects` · `POST /api/projects` · `GET /api/projects/:id` · `PATCH /api/projects/:id` · `DELETE /api/projects/:id`
+- `GET /api/projects/:id/deployments` · `POST /api/projects/:id/deployments`
+- `POST /api/deployments/:id/activate` · `POST /api/deployments/:id/revert`
 
 Storage is PostgreSQL via Drizzle ORM.
 
@@ -128,6 +128,6 @@ Zod schemas + inferred types shared between API and TUI.
 npm install                  # install all workspace deps
 npm run build                # build all packages
 npm run dev -w @yacs/api     # start API on :3000 (override with $PORT)
-npm run dev -w @yacs/tui     # start TUI (defaults to http://localhost:3000, override with $YACS_API_URL)
+npm run dev -w @yacs/tui     # start TUI (defaults to http://localhost:3000/api, override with $YACS_API_URL)
 docker compose up -d         # start local PostgreSQL
 ```

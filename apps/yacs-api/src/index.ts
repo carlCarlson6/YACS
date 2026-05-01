@@ -23,7 +23,7 @@ async function start() {
   const unitOfWork = createUnitOfWork(database);
 
   app.use(
-    "/projects",
+    "/api/projects",
     createProjectsRouter({
       repositories,
       unitOfWork,
@@ -35,7 +35,7 @@ async function start() {
   );
 
   app.use(
-    "/deployments",
+    "/api/deployments",
     createDeploymentsRouter({
       unitOfWork,
       now,

@@ -7,7 +7,7 @@ import { useFatalError } from "./contexts/FatalErrorContext";
 /**
  * Returns a function that runs lint -> test -> build inside `projectDir`,
  * captures all child output (so it never bleeds into the TUI), and posts the
- * resulting build artifact to `POST /projects/:id/deployments`.
+ * resulting build artifact to `POST /api/projects/:id/deployments`.
  *
  * Any failure is funneled to the FatalError overlay and the function resolves
  * to `false` so callers can branch on success.

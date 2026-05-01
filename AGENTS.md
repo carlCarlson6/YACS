@@ -36,13 +36,13 @@ Both api and tui reference schemas via tsconfig `references`.
 Runs on `http://localhost:3000` by default. Override with `$PORT`.
 
 **Endpoints:**
-- `GET /projects` — list all
-- `POST /projects` — create (body: `{ name }`)
-- `GET /projects/:id` — get one
-- `PATCH /projects/:id` — update (body: `{ name?, status? }`)
-- `GET /projects/:id/deployments` — list deployments
-- `POST /projects/:id/deployments` — create deployment
-- `POST /deployments/:id/revert` — revert to previous deployment
+- `GET /api/projects` — list all
+- `POST /api/projects` — create (body: `{ name }`)
+- `GET /api/projects/:id` — get one
+- `PATCH /api/projects/:id` — update (body: `{ name?, status? }`)
+- `GET /api/projects/:id/deployments` — list deployments
+- `POST /api/projects/:id/deployments` — create deployment
+- `POST /api/deployments/:id/revert` — revert to previous deployment
 
 **Storage:** in-memory (`Map`). Persists only while server runs.
 
@@ -56,7 +56,7 @@ Bin entry: `yacs` → `dist/cli.js`. Run with `npm start -w @yacs/tui -- <comman
 - `yacs revert <deployment-id>` — revert deployment
 - `yacs project update <id> [--name X] [--status Y]` — update project
 
-**API URL:** defaults to `http://localhost:3000`, override with `--api-url` or `$YACS_API_URL`.
+**API URL:** defaults to `http://localhost:3000/api`, override with `--api-url` or `$YACS_API_URL`.
 
 ## Deploy Flow
 
@@ -64,7 +64,7 @@ For vite-based projects only. The TUI executes in the target project directory:
 1. `npm run lint`
 2. `npm run test`
 3. `npm run build`
-4. POSTs build metadata to `POST /projects/:id/deployments`
+4. POSTs build metadata to `POST /api/projects/:id/deployments`
 
 ## Adding a New Package
 

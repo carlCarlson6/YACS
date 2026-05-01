@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:3000/api
+@projectId = replace-with-project-id
+@deploymentId = replace-with-deployment-id
+
+### List projects
+GET {{baseUrl}}/projects
+
+### Create project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+
+{
+  "name": "My Project"
+}
+
+### Get project
+GET {{baseUrl}}/projects/{{projectId}}
+
+### Update project
+PATCH {{baseUrl}}/projects/{{projectId}}
+Content-Type: application/json
+
+{
+  "name": "My Project Updated",
+  "status": "running"
+}
+
+### Delete project
+DELETE {{baseUrl}}/projects/{{projectId}}
+
+### List project deployments
+GET {{baseUrl}}/projects/{{projectId}}/deployments
+
+### Create deployment for project
+POST {{baseUrl}}/projects/{{projectId}}/deployments
+Content-Type: application/json
+
+{
+  "projectId": "{{projectId}}",
+  "buildOutput": "dist build output contents"
+}
+
+### Activate deployment
+POST {{baseUrl}}/deployments/{{deploymentId}}/activate
+
+### Revert deployment
+POST {{baseUrl}}/deployments/{{deploymentId}}/revert
