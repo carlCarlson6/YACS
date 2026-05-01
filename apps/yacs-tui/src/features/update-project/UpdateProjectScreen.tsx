@@ -97,9 +97,11 @@ export function UpdateProjectScreen() {
       }}
     >
       <box style={{ flexDirection: "row", gap: 1 }}>
-        <text fg={T.primary}>name &gt;</text>
+        <box style={{ marginTop: 1 }}>
+          <text fg={T.primary}>name &gt;</text>
+        </box>
         <box style={{ border: true, borderColor: T.borderDim, width: 36, height: 3 }}>
-          <input value={name} onInput={setName} />
+          <input value={name} onInput={setName} focused />
         </box>
       </box>
       <text fg={T.primary}>status &gt;</text>
@@ -134,7 +136,7 @@ export function UpdateProjectScreen() {
         <text fg={status === "running" ? T.primary : T.danger}>{status}</text>
       </box>
       <text fg={T.textDim}>
-        [S] start · [X] stop · [Enter] save · [Ctrl+B] cancel · [Esc] quit
+        [S] start · [X] stop · [Enter] save changes · [Ctrl+B] cancel · [Esc] quit
       </text>
     </box>
   );

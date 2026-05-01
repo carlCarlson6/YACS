@@ -23,6 +23,10 @@ export function CreateProjectScreen() {
   const [projectPath, setProjectPath] = useState("");
   const [step, setStep] = useState<"name" | "path">("name");
 
+  const focusNextField = () => {
+    setStep((current) => (current === "name" ? "path" : "name"));
+  };
+
   const submit = async () => {
     const trimmed = name.trim();
     if (!trimmed) {
@@ -69,6 +73,10 @@ export function CreateProjectScreen() {
 
   useKeyboard((key) => {
     if (view !== "create" || confirm || fatalError) return;
+    if (key.name === "tab") {
+      focusNextField();
+      return;
+    }
     if (key.ctrl && key.name === "b") {
       setView("projects");
       setStatus("> cancelled");
@@ -90,7 +98,9 @@ export function CreateProjectScreen() {
       <text fg={T.accent}>creates project + runs lint → test → build → deploy</text>
 
       <box style={{ flexDirection: "row", gap: 1 }}>
-        <text fg={step === "name" ? T.primary : T.muted}>name &gt;</text>
+        <box style={{ marginTop: 1 }}>
+          <text fg={step === "name" ? T.primary : T.muted}>name &gt;</text>
+        </box>
         <box
           style={{
             border: true,
@@ -116,7 +126,9 @@ export function CreateProjectScreen() {
       </box>
 
       <box style={{ flexDirection: "row", gap: 1 }}>
-        <text fg={step === "path" ? T.primary : T.muted}>path &gt;</text>
+        <box style={{ marginTop: 1 }}>
+          <text fg={step === "path" ? T.primary : T.muted}>path &gt;</text>
+        </box>
         <box
           style={{
             border: true,
@@ -136,7 +148,7 @@ export function CreateProjectScreen() {
       </box>
 
       <text fg={T.textDim}>relative to: {process.cwd()}</text>
-      <text fg={T.textDim}>[Enter] next/submit · [Ctrl+B] cancel · [Esc] quit</text>
+      <text fg={T.textDim}>[Tab] next field · [Enter] next/submit · [Ctrl+B] cancel · [Esc] quit</text>
     </box>
   );
 }

@@ -58,13 +58,20 @@ Bin entry: `yacs` → `dist/cli.js`. Run with `npm start -w @yacs/tui -- <comman
 
 **API URL:** defaults to `http://localhost:3000/api`, override with `--api-url` or `$YACS_API_URL`.
 
+## TUI UI Rules
+
+- In edit forms, autofocus the primary input when the screen opens.
+- When a form has multiple inputs, `Tab` moves focus to the next field and wraps back to the first field.
+- Align field labels slightly lower so label text lines up with the input text, not the box top.
+
 ## Deploy Flow
 
 For vite-based projects only. The TUI executes in the target project directory:
-1. `npm run lint`
-2. `npm run test`
-3. `npm run build`
-4. POSTs build metadata to `POST /api/projects/:id/deployments`
+1. `npm install`
+2. `npm run lint` if the script exists
+3. `npm run test` if the script exists
+4. `npm run build` and fail fast if the script is missing
+5. POSTs build metadata to `POST /api/projects/:id/deployments`
 
 ## Adding a New Package
 

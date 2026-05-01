@@ -5,7 +5,7 @@ import { useStatus } from "./contexts/StatusContext";
 import { useFatalError } from "./contexts/FatalErrorContext";
 
 /**
- * Returns a function that runs lint -> test -> build inside `projectDir`,
+ * Returns a function that runs npm install -> optional lint/test -> build inside `projectDir`,
  * captures all child output (so it never bleeds into the TUI), and posts the
  * resulting build artifact to `POST /api/projects/:id/deployments`.
  *
@@ -19,9 +19,9 @@ export function useRunBuildAndDeploy() {
 
   return useCallback(
     async (projectId: string, projectDir: string): Promise<boolean> => {
-      setStatus(`> [${projectDir}] running lint -> test -> build...`);
       const { execSync } = await import("node:child_process");
       const fs = await import("node:fs");
+      const packageJsonPath = path.join(projectDir, "package.json");
 
       const runStep = (label: string, cmd: string): string => {
         try {
@@ -44,13 +44,29 @@ export function useRunBuildAndDeploy() {
         if (!fs.existsSync(projectDir) || !fs.statSync(projectDir).isDirectory()) {
           throw new Error(`project path is not a directory: ${projectDir}`);
         }
-        if (!fs.existsSync(path.join(projectDir, "package.json"))) {
+        if (!fs.existsSync(packageJsonPath)) {
           throw new Error(`no package.json in: ${projectDir}`);
         }
-        runStep("lint", "npm run lint");
-        runStep("test", "npm run test");
+        const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf8")) as {
+          scripts?: Record<string, string>;
+        };
+        if (!pkg.scripts?.build) {
+          throw new Error(`missing required build script in ${packageJsonPath}`);
+        }
+        setStatus(`> [${projectDir}] npm install`);
+        runStep("install", "npm install");
+        if (pkg.scripts?.lint) {
+          setStatus(`> [${projectDir}] npm run lint`);
+          runStep("lint", "npm run lint");
+        }
+        if (pkg.scripts?.test) {
+          setStatus(`> [${projectDir}] npm run test`);
+          runStep("test", "npm run test");
+        }
+        setStatus(`> [${projectDir}] npm run build`);
         const buildOutput = runStep("build", "npm run build");
 
+        setStatus(`> [${projectDir}] publishing deployment`);
         const res = await fetch(`${apiUrl}/projects/${projectId}/deployments`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
