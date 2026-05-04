@@ -7,7 +7,8 @@ import { useView } from "../../shared/contexts/ViewContext";
 import { useProjects } from "../../shared/contexts/ProjectsContext";
 import { useConfirm } from "../../shared/contexts/ConfirmContext";
 import { useFatalError } from "../../shared/contexts/FatalErrorContext";
-import { useRunBuildAndDeploy } from "../../shared/runBuildAndDeploy";
+import { useRunBuildAndDeploy, type DeploymentStep } from "../../shared/runBuildAndDeploy";
+import { DeploymentStepIndicator } from "../../shared/ui/DeploymentStepIndicator";
 
 export function DeployProjectScreen() {
   const { setStatus } = useStatus();
@@ -19,6 +20,7 @@ export function DeployProjectScreen() {
 
   const project = projects[selectedProject];
   const [projectPath, setProjectPath] = useState("");
+  const [deploymentStep, setDeploymentStep] = useState<DeploymentStep | null>(null);
 
   const submit = async () => {
     if (!project) return;
@@ -29,7 +31,8 @@ export function DeployProjectScreen() {
       setStatus(`! ${(err as Error).message}`);
       return;
     }
-    const ok = await runBuildAndDeploy(project.id, projectDir);
+    const ok = await runBuildAndDeploy(project.id, projectDir, setDeploymentStep);
+    setDeploymentStep(null);
     if (ok) {
       setStatus(`> deployment pushed for ${project.name}`);
       setProjectPath("");
@@ -77,6 +80,7 @@ export function DeployProjectScreen() {
       </box>
       <text fg={T.textDim}>relative to: {process.cwd()}</text>
       <text fg={T.textDim}>[Enter] deploy · [Ctrl+B] cancel · [Esc] quit</text>
+      <DeploymentStepIndicator step={deploymentStep} />
     </box>
   );
 }

@@ -8,7 +8,8 @@ import { useView } from "../../shared/contexts/ViewContext";
 import { useProjects } from "../../shared/contexts/ProjectsContext";
 import { useConfirm } from "../../shared/contexts/ConfirmContext";
 import { useFatalError } from "../../shared/contexts/FatalErrorContext";
-import { useRunBuildAndDeploy } from "../../shared/runBuildAndDeploy";
+import { useRunBuildAndDeploy, type DeploymentStep } from "../../shared/runBuildAndDeploy";
+import { DeploymentStepIndicator } from "../../shared/ui/DeploymentStepIndicator";
 
 export function CreateProjectScreen() {
   const apiUrl = useApiUrl();
@@ -22,6 +23,7 @@ export function CreateProjectScreen() {
   const [name, setName] = useState("");
   const [projectPath, setProjectPath] = useState("");
   const [step, setStep] = useState<"name" | "path">("name");
+  const [deploymentStep, setDeploymentStep] = useState<DeploymentStep | null>(null);
 
   const focusNextField = () => {
     setStep((current) => (current === "name" ? "path" : "name"));
@@ -55,7 +57,8 @@ export function CreateProjectScreen() {
       }
       const project = await res.json();
       setStatus(`> project created. deploying...`);
-      const deployed = await runBuildAndDeploy(project.id, projectDir);
+      const deployed = await runBuildAndDeploy(project.id, projectDir, setDeploymentStep);
+      setDeploymentStep(null);
       setStatus(
         deployed
           ? `> project "${trimmed}" online`
@@ -149,6 +152,7 @@ export function CreateProjectScreen() {
 
       <text fg={T.textDim}>relative to: {process.cwd()}</text>
       <text fg={T.textDim}>[Tab] next field · [Enter] next/submit · [Ctrl+B] cancel · [Esc] quit</text>
+      <DeploymentStepIndicator step={deploymentStep} />
     </box>
   );
 }

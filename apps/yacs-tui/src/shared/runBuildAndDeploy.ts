@@ -4,6 +4,15 @@ import { useApiUrl } from "./contexts/ApiContext";
 import { useStatus } from "./contexts/StatusContext";
 import { useFatalError } from "./contexts/FatalErrorContext";
 
+export type DeploymentStep =
+  | "install"
+  | "lint"
+  | "test"
+  | "build"
+  | "publish"
+  | "success"
+  | "error";
+
 /**
  * Returns a function that runs npm install -> optional lint/test -> build inside `projectDir`,
  * captures all child output (so it never bleeds into the TUI), and posts the
@@ -16,24 +25,38 @@ export function useRunBuildAndDeploy() {
   const apiUrl = useApiUrl();
   const { setStatus, setBusy } = useStatus();
   const { reportError } = useFatalError();
+  const delayBetweenSteps = 120;
 
   return useCallback(
-    async (projectId: string, projectDir: string): Promise<boolean> => {
-      const { execSync } = await import("node:child_process");
+    async (
+      projectId: string,
+      projectDir: string,
+      onProgress?: (step: DeploymentStep) => void
+    ): Promise<boolean> => {
+      const { exec } = await import("node:child_process");
+      const { promisify } = await import("node:util");
       const fs = await import("node:fs");
+      const execAsync = promisify(exec);
       const packageJsonPath = path.join(projectDir, "package.json");
 
-      const runStep = (label: string, cmd: string): string => {
+      const reportStep = (step: DeploymentStep) => onProgress?.(step);
+      const wait = () =>
+        new Promise<void>((resolve) => setTimeout(resolve, delayBetweenSteps));
+
+      const runStep = async (label: string, cmd: string): Promise<string> => {
         try {
-          return execSync(cmd, {
+          const { stdout, stderr } = await execAsync(cmd, {
             cwd: projectDir,
-            stdio: ["ignore", "pipe", "pipe"],
-          }).toString();
+            maxBuffer: 20 * 1024 * 1024,
+          });
+          return [stdout ?? "", stderr ?? ""].filter(Boolean).join("\n");
         } catch (err) {
-          const e = err as { stdout?: Buffer; stderr?: Buffer; message?: string };
-          const out = (e.stdout?.toString() ?? "").trim();
-          const errOut = (e.stderr?.toString() ?? "").trim();
-          const detail = [errOut, out].filter(Boolean).join("\n").slice(-2000);
+          const e = err as { stdout?: string; stderr?: string; message?: string };
+          const detail = [e.stderr, e.stdout]
+            .filter(Boolean)
+            .map((str) => str!.trim())
+            .join("\n")
+            .slice(-2000);
           throw new Error(
             `${label} failed: ${cmd}\n${detail || e.message || "unknown error"}`
           );
@@ -53,25 +76,35 @@ export function useRunBuildAndDeploy() {
         if (!pkg.scripts?.build) {
           throw new Error(`missing required build script in ${packageJsonPath}`);
         }
-        setStatus(`> install [${projectDir}]`);
+
         setBusy(true);
-        runStep("install", "npm install");
+
+        setStatus(`> install [${projectDir}]`);
+        reportStep("install");
+        await runStep("install", "npm install");
+        await wait();
+
         if (pkg.scripts?.lint) {
           setStatus(`> lint [${projectDir}]`);
-          setBusy(true);
-          runStep("lint", "npm run lint");
+          reportStep("lint");
+          await runStep("lint", "npm run lint");
+          await wait();
         }
+
         if (pkg.scripts?.test) {
           setStatus(`> test [${projectDir}]`);
-          setBusy(true);
-          runStep("test", "npm run test");
+          reportStep("test");
+          await runStep("test", "npm run test");
+          await wait();
         }
+
         setStatus(`> build [${projectDir}]`);
-        setBusy(true);
-        const buildOutput = runStep("build", "npm run build");
+        reportStep("build");
+        const buildOutput = await runStep("build", "npm run build");
+        await wait();
 
         setStatus(`> publish deployment [${projectDir}]`);
-        setBusy(true);
+        reportStep("publish");
         const res = await fetch(`${apiUrl}/projects/${projectId}/deployments`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -80,13 +113,16 @@ export function useRunBuildAndDeploy() {
         if (!res.ok) {
           throw new Error(`API rejected deployment (HTTP ${res.status})`);
         }
+
         setStatus(`> deployment published [${projectDir}]`);
-        setBusy(false);
+        reportStep("success");
         return true;
       } catch (err) {
-        setBusy(false);
+        reportStep("error");
         reportError(err);
         return false;
+      } finally {
+        setBusy(false);
       }
     },
     [apiUrl, setStatus, setBusy, reportError]
