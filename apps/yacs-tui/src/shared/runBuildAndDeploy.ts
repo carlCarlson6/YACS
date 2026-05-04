@@ -14,7 +14,7 @@ import { useFatalError } from "./contexts/FatalErrorContext";
  */
 export function useRunBuildAndDeploy() {
   const apiUrl = useApiUrl();
-  const { setStatus } = useStatus();
+  const { setStatus, setBusy } = useStatus();
   const { reportError } = useFatalError();
 
   return useCallback(
@@ -53,20 +53,25 @@ export function useRunBuildAndDeploy() {
         if (!pkg.scripts?.build) {
           throw new Error(`missing required build script in ${packageJsonPath}`);
         }
-        setStatus(`> [${projectDir}] npm install`);
+        setStatus(`> install [${projectDir}]`);
+        setBusy(true);
         runStep("install", "npm install");
         if (pkg.scripts?.lint) {
-          setStatus(`> [${projectDir}] npm run lint`);
+          setStatus(`> lint [${projectDir}]`);
+          setBusy(true);
           runStep("lint", "npm run lint");
         }
         if (pkg.scripts?.test) {
-          setStatus(`> [${projectDir}] npm run test`);
+          setStatus(`> test [${projectDir}]`);
+          setBusy(true);
           runStep("test", "npm run test");
         }
-        setStatus(`> [${projectDir}] npm run build`);
+        setStatus(`> build [${projectDir}]`);
+        setBusy(true);
         const buildOutput = runStep("build", "npm run build");
 
-        setStatus(`> [${projectDir}] publishing deployment`);
+        setStatus(`> publish deployment [${projectDir}]`);
+        setBusy(true);
         const res = await fetch(`${apiUrl}/projects/${projectId}/deployments`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,12 +80,15 @@ export function useRunBuildAndDeploy() {
         if (!res.ok) {
           throw new Error(`API rejected deployment (HTTP ${res.status})`);
         }
+        setStatus(`> deployment published [${projectDir}]`);
+        setBusy(false);
         return true;
       } catch (err) {
+        setBusy(false);
         reportError(err);
         return false;
       }
     },
-    [apiUrl, setStatus, reportError]
+    [apiUrl, setStatus, setBusy, reportError]
   );
 }

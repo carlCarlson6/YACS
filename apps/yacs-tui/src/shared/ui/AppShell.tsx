@@ -1,5 +1,5 @@
 import { useKeyboard, useRenderer, useTerminalDimensions } from "@opentui/react";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { T } from "../theme";
 import { useStatus } from "../contexts/StatusContext";
 import { useConfirm } from "../contexts/ConfirmContext";
@@ -10,11 +10,24 @@ import { useFatalError } from "../contexts/FatalErrorContext";
  * the global Esc-to-quit handler (suppressed when an overlay is active).
  */
 export function AppShell({ children }: { children: ReactNode }) {
-  const { status } = useStatus();
+  const { status, busy } = useStatus();
   const { confirm } = useConfirm();
   const { fatalError } = useFatalError();
   const renderer = useRenderer();
   const { width, height } = useTerminalDimensions();
+  const spinnerFrames = ["-", "\\", "|", "/"];
+  const [spinnerIndex, setSpinnerIndex] = useState(0);
+
+  useEffect(() => {
+    if (!busy) {
+      setSpinnerIndex(0);
+      return;
+    }
+    const timer = setInterval(() => {
+      setSpinnerIndex((current) => (current + 1) % spinnerFrames.length);
+    }, 120);
+    return () => clearInterval(timer);
+  }, [busy]);
 
   useKeyboard((key) => {
     if (fatalError || confirm) return;
@@ -58,7 +71,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           paddingRight: 1,
         }}
       >
-        <text fg={T.primaryDim}>{status ? status : "// awaiting input //"}</text>
+        <text fg={T.primaryDim}>
+          {status ? `${busy ? `${spinnerFrames[spinnerIndex]} ` : ""}${status}` : "// awaiting input //"}
+        </text>
       </box>
     </box>
   );
