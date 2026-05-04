@@ -7,3 +7,4 @@ dist/
 !apps/yacs-api/.env.example
 .DS_Store
 .agents
+vite
