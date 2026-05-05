@@ -332,7 +332,7 @@ AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devsto
 ```
 
 ## Status
-Pending
+Completed
 
 ## Dependencies
 - PLAN-007 (PostgreSQL + Drizzle) - Completed
