@@ -44,6 +44,57 @@ export const revertRequestSchema = z.object({
 });
 export type RevertRequest = z.infer<typeof revertRequestSchema>;
 
+// --- Upload Flow Schemas ---
+export const uploadFileInfoSchema = z.object({
+  path: z.string(),
+  size: z.number().int().positive(),
+  contentType: z.string().optional(),
+});
+export type UploadFileInfo = z.infer<typeof uploadFileInfoSchema>;
+
+export const requestUploadUrlsInputSchema = z.object({
+  files: z.array(uploadFileInfoSchema).min(1),
+});
+export type RequestUploadUrlsInput = z.infer<typeof requestUploadUrlsInputSchema>;
+
+export const uploadUrlResponseSchema = z.object({
+  deploymentId: z.string(),
+  uploadUrls: z.array(z.object({
+    path: z.string(),
+    sasUrl: z.string().url(),
+  })),
+  manifestUrl: z.string().url(),
+  expiresAt: z.string(),
+});
+export type UploadUrlResponse = z.infer<typeof uploadUrlResponseSchema>;
+
+export const uploadManifestSchema = z.object({
+  files: z.array(z.object({
+    path: z.string(),
+    size: z.number().int().positive(),
+    checksum: z.string(),
+  })),
+  totalSize: z.number().int().positive(),
+  uploadedAt: z.string(),
+});
+export type UploadManifest = z.infer<typeof uploadManifestSchema>;
+
+export const uploadCompleteInputSchema = z.object({
+  manifest: uploadManifestSchema,
+});
+export type UploadCompleteInput = z.infer<typeof uploadCompleteInputSchema>;
+
+export const deploymentStatusSchema = z.enum([
+  "pending_upload",
+  "uploading",
+  "processing",
+  "active",
+  "failed",
+]);
+export type DeploymentStatus = z.infer<typeof deploymentStatusSchema>;
+
+// --- End Upload Flow Schemas ---
+
 export const apiErrorSchema = z.object({
   error: z.string(),
   message: z.string(),

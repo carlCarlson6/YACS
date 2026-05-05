@@ -4,6 +4,8 @@ import { AppError } from "../../domain/errors.js";
 import type { Repositories } from "../../domain/repositories.js";
 import type { UnitOfWork } from "../../application/unit-of-work.js";
 import { createProjectDeployment } from "./create-project-deployment.js";
+import { requestUploadUrlsFeature } from "./request-upload-urls.js";
+import { requestUploadUrlsInputSchema, type UploadUrlResponse } from "@yacs/schemas";
 import { createProjectFeature } from "./create-project.js";
 import { deleteProjectFeature } from "./delete-project.js";
 import { getProject } from "./get-project.js";
@@ -114,6 +116,20 @@ export function createProjectsRouter(deps: {
       res.status(201).json(deployment);
     } catch (error) {
       handleError(res as Response<ApiError>, error, sendError);
+    }
+  });
+
+  router.post("/:id/deployments/upload-url", async (req: Request<ProjectParams, {}, unknown>, res: Response<UploadUrlResponse | ApiError>) => {
+    const parsed = requestUploadUrlsInputSchema.safeParse(req.body);
+    if (!parsed.success) {
+      log(`Upload URL request validation failed: ${parsed.error.errors[0].message}`);
+      return sendError(res as Response<ApiError>, parsed.error);
+    }
+    try {
+      const result = await requestUploadUrlsFeature({ unitOfWork, generateId, now, log }, req.params.id, parsed.data as any);
+      res.json(result);
+    } catch (error) {
+      return sendError(res as Response<ApiError>, error);
     }
   });
 
