@@ -14,7 +14,7 @@ export function ConfirmOverlay() {
     if (key.name === "y") {
       const c = confirm;
       closeConfirm();
-      Promise.resolve(c.run());
+      void Promise.resolve(c.run());
       return;
     }
     if (key.name === "n" || key.name === "backspace") {

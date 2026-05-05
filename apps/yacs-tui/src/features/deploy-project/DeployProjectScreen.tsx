@@ -72,7 +72,9 @@ export function DeployProjectScreen() {
           <input
             value={projectPath}
             onInput={setProjectPath}
-            onSubmit={submit}
+            onSubmit={() => {
+              void submit();
+            }}
             placeholder="./relative/path/to/project"
             focused
           />

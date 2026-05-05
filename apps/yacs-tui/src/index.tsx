@@ -1,12 +1,12 @@
-import { createCliRenderer } from "@opentui/core"
-import { createRoot } from "@opentui/react"
-import { App } from "./App"
+import { createCliRenderer } from "@opentui/core";
+import { createRoot } from "@opentui/react";
+import { App } from "./App";
 
 function normalizeApiUrl(url: string): string {
-  return url.replace(/\/$/, "").replace(/\/api$/, "") + "/api"
+  return url.replace(/\/$/, "").replace(/\/api$/, "") + "/api";
 }
 
-export const API_URL = normalizeApiUrl(process.env.YACS_API_URL || "http://localhost:3000")
+export const API_URL = normalizeApiUrl(process.env.YACS_API_URL ?? "http://localhost:3000");
 
 const renderer = await createCliRenderer({
   exitOnCtrlC: false,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useKeyboard } from "@opentui/react";
+import { projectSchema } from "@yacs/schemas";
 import { T } from "../../shared/theme";
 import { resolveProjectDir } from "../../shared/paths";
 import { useApiUrl } from "../../shared/contexts/ApiContext";
@@ -55,7 +56,7 @@ export function CreateProjectScreen() {
         setStatus("! failed to create project");
         return;
       }
-      const project = await res.json();
+      const project = projectSchema.parse(await res.json());
       setStatus(`> project created. deploying...`);
       const deployed = await runBuildAndDeploy(project.id, projectDir, setDeploymentStep);
       setDeploymentStep(null);
@@ -67,7 +68,7 @@ export function CreateProjectScreen() {
       setName("");
       setProjectPath("");
       setStep("name");
-      fetchProjects();
+      await fetchProjects();
       setView("projects");
     } catch {
       setStatus("! create project error");
@@ -143,7 +144,9 @@ export function CreateProjectScreen() {
           <input
             value={projectPath}
             onInput={setProjectPath}
-            onSubmit={submit}
+            onSubmit={() => {
+              void submit();
+            }}
             placeholder="./relative/path/to/project"
             focused={step === "path"}
           />

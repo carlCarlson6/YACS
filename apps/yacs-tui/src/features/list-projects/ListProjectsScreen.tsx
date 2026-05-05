@@ -24,10 +24,12 @@ export function ListProjectsScreen() {
       setView("detail");
     }
     if (key.name === "d") setView("create");
-    if (key.name === "k" && projects[selectedProject]) requestDelete(projects[selectedProject]);
+    if (key.name === "k" && projects[selectedProject]) {
+      void requestDelete(projects[selectedProject]);
+    }
     if (key.name === "r") {
       setStatus("> refreshing projects...");
-      fetchProjects();
+      void fetchProjects();
     }
   });
 

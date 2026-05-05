@@ -1,7 +1,9 @@
-import type { Project } from "@yacs/schemas";
+import { projectSchema, type Project } from "@yacs/schemas";
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { useApiUrl } from "./ApiContext";
 import { useStatus } from "./StatusContext";
+
+const projectListSchema = projectSchema.array();
 
 type ProjectsContextValue = {
   projects: Project[];
@@ -18,7 +20,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
   const fetchProjects = useCallback(async () => {
     try {
       const res = await fetch(`${apiUrl}/projects`);
-      const data = await res.json();
+      const data = projectListSchema.parse(await res.json());
       setProjects(data);
       setStatus("> projects loaded");
     } catch {
@@ -27,7 +29,7 @@ export function ProjectsProvider({ children }: { children: ReactNode }) {
   }, [apiUrl, setStatus]);
 
   useEffect(() => {
-    fetchProjects();
+    void fetchProjects();
   }, [fetchProjects]);
 
   return (

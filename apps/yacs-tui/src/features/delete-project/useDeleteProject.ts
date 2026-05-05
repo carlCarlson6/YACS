@@ -43,8 +43,10 @@ export function useDeleteProject() {
       try {
         const res = await fetch(`${apiUrl}/projects/${project.id}/deployments`);
         if (res.ok) {
-          const list = await res.json();
-          depCount = Array.isArray(list) ? list.length : 0;
+          const payload: unknown = await res.json();
+          if (Array.isArray(payload)) {
+            depCount = payload.length;
+          }
         }
       } catch {
         depCount = 0;

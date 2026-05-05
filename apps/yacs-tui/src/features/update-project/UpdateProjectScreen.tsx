@@ -48,7 +48,7 @@ export function UpdateProjectScreen() {
     }
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!project) return;
     const willStop = project.status === "running" && status === "stopped";
     if (willStop) {
@@ -60,7 +60,7 @@ export function UpdateProjectScreen() {
         run: persist,
       });
     } else {
-      persist();
+      await persist();
     }
   };
 
@@ -71,7 +71,9 @@ export function UpdateProjectScreen() {
       setStatus("> cancelled");
       return;
     }
-    if (key.name === "return") submit();
+    if (key.name === "return") {
+      void submit();
+    }
     if (key.name === "s") {
       setStatusValue("running");
       setStatus("> status: running (press Enter to save)");

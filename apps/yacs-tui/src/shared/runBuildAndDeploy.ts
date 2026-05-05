@@ -56,10 +56,10 @@ export function useRunBuildAndDeploy() {
             .filter(Boolean)
             .map((str) => str!.trim())
             .join("\n")
-            .slice(-2000);
-          throw new Error(
-            `${label} failed: ${cmd}\n${detail || e.message || "unknown error"}`
-          );
+            .slice(-2000)
+            .trim();
+          const message = detail.length > 0 ? detail : e.message ?? "unknown error";
+          throw new Error(`${label} failed: ${cmd}\n${message}`);
         }
       };
 

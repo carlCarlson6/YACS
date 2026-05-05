@@ -5,6 +5,8 @@ import { useStatus } from "../contexts/StatusContext";
 import { useConfirm } from "../contexts/ConfirmContext";
 import { useFatalError } from "../contexts/FatalErrorContext";
 
+const spinnerFrames = ["-", "\\", "|", "/"];
+
 /**
  * Outer chrome of the TUI: full-screen frame, header, status bar, and
  * the global Esc-to-quit handler (suppressed when an overlay is active).
@@ -15,8 +17,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { fatalError } = useFatalError();
   const renderer = useRenderer();
   const { width, height } = useTerminalDimensions();
-  const spinnerFrames = ["-", "\\", "|", "/"];
   const [spinnerIndex, setSpinnerIndex] = useState(0);
+  const frameCount = spinnerFrames.length;
 
   useEffect(() => {
     if (!busy) {
@@ -24,10 +26,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       return;
     }
     const timer = setInterval(() => {
-      setSpinnerIndex((current) => (current + 1) % spinnerFrames.length);
+      setSpinnerIndex((current) => (current + 1) % frameCount);
     }, 120);
     return () => clearInterval(timer);
-  }, [busy]);
+  }, [busy, frameCount]);
 
   useKeyboard((key) => {
     if (fatalError || confirm) return;

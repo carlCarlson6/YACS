@@ -40,7 +40,7 @@ export function ProjectDetailScreen() {
   // Re-fetch deployments whenever this screen becomes active for the current project
   useEffect(() => {
     if (view === "detail" && project) {
-      fetchDeployments(project.id);
+      void fetchDeployments(project.id);
     }
   }, [view, project?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -53,13 +53,15 @@ export function ProjectDetailScreen() {
       setStatus("> enter relative path to project code");
     }
     if (key.name === "return" && deployments[selectedDeployment]) {
-      requestActivate(project, deployments[selectedDeployment], deployments);
+      void requestActivate(project, deployments[selectedDeployment], deployments);
     }
     if (key.name === "u") setView("update");
-    if (key.name === "k") requestDelete(project);
+    if (key.name === "k") {
+      void requestDelete(project);
+    }
     if (key.name === "r") {
       setStatus("> refreshing...");
-      fetchDeployments(project.id);
+      void fetchDeployments(project.id);
     }
     if (key.name === "backspace") {
       setView("projects");

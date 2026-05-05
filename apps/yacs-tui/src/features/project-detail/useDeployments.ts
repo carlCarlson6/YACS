@@ -1,5 +1,8 @@
 import { useCallback, useState } from "react";
+import { deploymentSchema } from "@yacs/schemas";
 import type { Deployment } from "../../shared/types";
+
+const deploymentListSchema = deploymentSchema.array();
 import { useApiUrl } from "../../shared/contexts/ApiContext";
 import { useStatus } from "../../shared/contexts/StatusContext";
 
@@ -12,7 +15,7 @@ export function useDeployments() {
     async (projectId: string) => {
       try {
         const res = await fetch(`${apiUrl}/projects/${projectId}/deployments`);
-        const data = await res.json();
+        const data = deploymentListSchema.parse(await res.json());
         setDeployments(data);
         setStatus("> deployments loaded");
       } catch {
