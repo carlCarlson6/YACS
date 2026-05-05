@@ -4,7 +4,7 @@ import { AppError } from "../../domain/errors.js";
 import type { Repositories } from "../../domain/repositories.js";
 import type { UnitOfWork } from "../../application/unit-of-work.js";
 import { createProjectDeployment } from "./create-project-deployment.js";
-import { requestUploadUrlsFeature } from "./request-upload-urls.js";
+import { requestUploadUrlsFeature } from "../deployments/request-upload-urls.js";
 import { requestUploadUrlsInputSchema, type UploadUrlResponse } from "@yacs/schemas";
 import { createProjectFeature } from "./create-project.js";
 import { deleteProjectFeature } from "./delete-project.js";

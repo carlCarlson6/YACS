@@ -1,5 +1,5 @@
 import { StorageSharedKeyCredential, generateBlobSASQueryParameters, BlobSASPermissions, SASProtocol } from "@azure/storage-blob";
-import { containerClient } from "./azure-blob-client";
+import { containerClient } from "./azure-blob-client.js";
 
 const { AZURE_STORAGE_ACCOUNT_NAME, AZURE_STORAGE_ACCOUNT_KEY, AZURE_SAS_EXPIRY_MINUTES = "60" } = process.env;
 

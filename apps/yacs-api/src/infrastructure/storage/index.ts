@@ -1,2 +1,2 @@
-export * from "./azure-blob-client";
-export * from "./sas-generator";
+export * from "./azure-blob-client.js";
+export * from "./sas-generator.js";

@@ -28,7 +28,14 @@ function mapDeployment(row: DeploymentRow): Deployment {
     projectId: row.projectId,
     buildOutput: row.buildOutput,
     url: row.url,
+    status: row.status,
+    blobPrefix: row.blobPrefix,
+    manifestPath: row.manifestPath,
+    totalSize: row.totalSize,
+    fileCount: row.fileCount,
+    uploadExpiresAt: row.uploadExpiresAt ?? null,
     createdAt: row.createdAt,
+    completedAt: row.completedAt ?? null,
   });
 }
 
@@ -96,7 +103,18 @@ function createDeploymentRepository(database: DbExecutor): DeploymentRepository 
     },
 
     async create(deployment) {
-      const rows = await database.insert(schema.deployments).values(deployment).returning();
+      const blobPrefix = deployment.blobPrefix ?? `${deployment.projectId}/${deployment.id}`;
+      const manifestPath = deployment.manifestPath ?? `${blobPrefix}/manifest.json`;
+      const rows = await database.insert(schema.deployments).values({
+        ...deployment,
+        status: deployment.status ?? "pending_upload",
+        blobPrefix,
+        manifestPath,
+        totalSize: deployment.totalSize ?? 0,
+        fileCount: deployment.fileCount ?? 0,
+        uploadExpiresAt: deployment.uploadExpiresAt ?? null,
+        completedAt: deployment.completedAt ?? null,
+      }).returning();
       const row = rows.at(0);
       if (!row) {
         throw new Error("Failed to create deployment");

@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "lint": "eslint \"src/**/*.ts\"",
     "build": "tsc --build",
     "start": "node dist/index.js",
     "db:generate": "drizzle-kit generate",
@@ -29,6 +30,9 @@
     "@types/pg": "^8.15.5",
     "drizzle-kit": "^0.31.7",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.8.0"
   }
 }

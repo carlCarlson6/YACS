@@ -11,7 +11,7 @@ import { log, logError } from "./infrastructure/logger.js";
 import { randomUUID } from "node:crypto";
 
 const app = createHttpApp();
-const PORT = parseInt(process.env.PORT || "3000", 10);
+const PORT = parseInt(process.env.PORT ?? "3000", 10);
 
 function now(): string {
   return new Date().toISOString();
