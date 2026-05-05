@@ -28,9 +28,10 @@ export function createProjectsRouter(deps: {
   now: () => string;
   sendError: (res: Response<ApiError>, error: unknown) => void;
   log: (message: string) => void;
+  generateUploadSasUrl: (blobName: string) => string;
 }) {
   const router = Router();
-  const { repositories, unitOfWork, generateId, now, sendError, log } = deps;
+  const { repositories, unitOfWork, generateId, now, sendError, log, generateUploadSasUrl } = deps;
 
   router.get("/", async (_req: Request, res: Response<Project[] | ApiError>) => {
     try {
@@ -126,7 +127,11 @@ export function createProjectsRouter(deps: {
       return sendError(res as Response<ApiError>, parsed.error);
     }
     try {
-      const result = await requestUploadUrlsFeature({ unitOfWork, generateId, now, log }, req.params.id, parsed.data as any);
+      const result = await requestUploadUrlsFeature(
+        { unitOfWork, generateId, now, log, generateUploadSasUrl },
+        req.params.id,
+        parsed.data as any
+      );
       res.json(result);
     } catch (error) {
       return sendError(res as Response<ApiError>, error);

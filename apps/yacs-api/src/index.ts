@@ -9,6 +9,7 @@ import { sendError } from "./infrastructure/http/error-handler.js";
 import { startHttpServer } from "./infrastructure/http/server.js";
 import { log, logError } from "./infrastructure/logger.js";
 import { randomUUID } from "node:crypto";
+import { generateUploadSasUrl } from "./infrastructure/storage/sas-generator.js";
 
 const app = createHttpApp();
 const PORT = parseInt(process.env.PORT ?? "3000", 10);
@@ -31,6 +32,7 @@ async function start() {
       now,
       sendError,
       log,
+      generateUploadSasUrl,
     })
   );
 

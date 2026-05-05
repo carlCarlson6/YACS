@@ -1,7 +1,6 @@
 import type { RequestUploadUrlsInput, UploadUrlResponse } from "@yacs/schemas";
 import { NotFoundError } from "../../domain/errors.js";
 import type { UnitOfWork } from "../../application/unit-of-work.js";
-import { generateUploadSasUrl } from "../../infrastructure/storage/index.js";
 
 /**
  * Generate SAS URLs for client to upload deployment files and manifest.
@@ -12,11 +11,12 @@ export async function requestUploadUrlsFeature(
     generateId: () => string;
     now: () => string;
     log: (message: string) => void;
+    generateUploadSasUrl: (blobName: string) => string;
   },
   projectId: string,
   input: RequestUploadUrlsInput
 ): Promise<UploadUrlResponse> {
-  const { unitOfWork, generateId, now, log } = deps;
+  const { unitOfWork, generateId, now, log, generateUploadSasUrl } = deps;
   const { files } = input;
 
   const deploymentId = generateId();
