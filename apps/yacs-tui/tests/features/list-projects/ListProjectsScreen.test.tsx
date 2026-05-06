@@ -1,14 +1,14 @@
 import { render, screen, act, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import type { Project } from "@yacs/schemas";
-import { ListProjectsScreen } from "./ListProjectsScreen";
-import { ProjectsContext } from "../../shared/contexts/ProjectsContext";
-import { ViewProvider } from "../../shared/contexts/ViewContext";
-import { StatusProvider, useStatus } from "../../shared/contexts/StatusContext";
-import { ConfirmProvider } from "../../shared/contexts/ConfirmContext";
-import { FatalErrorProvider } from "../../shared/contexts/FatalErrorContext";
-import { ApiProvider } from "../../shared/contexts/ApiContext";
-import { emitKeyboard } from "../../test-utils/opentuiKeyboard";
+import { ListProjectsScreen } from "../../../src/features/list-projects/ListProjectsScreen";
+import { ProjectsContext } from "../../../src/shared/contexts/ProjectsContext";
+import { ViewProvider } from "../../../src/shared/contexts/ViewContext";
+import { StatusProvider, useStatus } from "../../../src/shared/contexts/StatusContext";
+import { ConfirmProvider } from "../../../src/shared/contexts/ConfirmContext";
+import { FatalErrorProvider } from "../../../src/shared/contexts/FatalErrorContext";
+import { ApiProvider } from "../../../src/shared/contexts/ApiContext";
+import { emitKeyboard } from "../../../src/test-utils/opentuiKeyboard";
 
 const projects: Project[] = [
   { id: "1", name: "Alpha", status: "running", createdAt: new Date().toISOString() } as Project,

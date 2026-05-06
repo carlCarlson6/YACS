@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeApiUrl } from "./normalizeApiUrl";
+import { normalizeApiUrl } from "../../../src/shared/utils/normalizeApiUrl";
 
 describe("normalizeApiUrl", () => {
   it("appends /api when missing", () => {

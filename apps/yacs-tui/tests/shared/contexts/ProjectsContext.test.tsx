@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import type { Project } from "@yacs/schemas";
-import { ApiProvider } from "./ApiContext";
-import { StatusProvider, useStatus } from "./StatusContext";
-import { ProjectsProvider, useProjects } from "./ProjectsContext";
+import { ApiProvider } from "../../../src/shared/contexts/ApiContext";
+import { StatusProvider, useStatus } from "../../../src/shared/contexts/StatusContext";
+import { ProjectsProvider, useProjects } from "../../../src/shared/contexts/ProjectsContext";
 
 function createWrapper(fetchImpl: typeof fetch) {
   return function Wrapper({ children }: { children: React.ReactNode }) {

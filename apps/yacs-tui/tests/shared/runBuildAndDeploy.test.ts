@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { createRunBuildAndDeploy, type BuildAndDeployDeps } from "./runBuildAndDeploy";
+import { createRunBuildAndDeploy, type BuildAndDeployDeps } from "../../src/shared/runBuildAndDeploy";
 
 function createDeps(overrides: Partial<BuildAndDeployDeps> = {}): BuildAndDeployDeps {
   const fsMock = {
