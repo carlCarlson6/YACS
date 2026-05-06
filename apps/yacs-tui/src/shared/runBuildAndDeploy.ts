@@ -168,19 +168,13 @@ export function useRunBuildAndDeploy(delayBetweenSteps = 120): RunBuildAndDeploy
   const { reportError } = useFatalError();
   const depsPromiseRef = useRef<Promise<BuildAndDeployDeps> | null>(null);
 
-  const getDeps = () => {
-    if (!depsPromiseRef.current) {
-      depsPromiseRef.current = loadDefaultDeps(delayBetweenSteps);
-    }
-    return depsPromiseRef.current;
-  };
-
   return useCallback(
     async (projectId, projectDir, onProgress) => {
-      const deps = await getDeps();
+      const depsPromise = depsPromiseRef.current ??= loadDefaultDeps(delayBetweenSteps);
+      const deps = await depsPromise;
       const runner = createRunBuildAndDeploy({ apiUrl, setStatus, setBusy, reportError, deps });
       return runner(projectId, projectDir, onProgress);
     },
-    [apiUrl, setStatus, setBusy, reportError]
+    [apiUrl, setStatus, setBusy, reportError, delayBetweenSteps]
   );
 }
