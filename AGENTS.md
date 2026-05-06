@@ -27,7 +27,7 @@ Both api and tui reference schemas via tsconfig `references`.
 
 ## Testing
 
-- TUI tests use Vitest + Testing Library. Helpers live in `apps/yacs-tui/src/test-utils` (`renderWithProviders`, `opentuiKeyboard`).
+- TUI tests use Vitest + Testing Library. Helpers live in `apps/yacs-tui/tests/test-utils` (`renderWithProviders`, `opentuiKeyboard`).
 - Run `npm run test -w @yacs/tui` (or `npm run test:watch -w @yacs/tui`) to execute the suite; root `npm test` proxies to the TUI tests.
 
 ## Tech Stack

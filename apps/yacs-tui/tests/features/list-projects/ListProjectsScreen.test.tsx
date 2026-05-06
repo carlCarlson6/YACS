@@ -8,7 +8,7 @@ import { StatusProvider, useStatus } from "../../../src/shared/contexts/StatusCo
 import { ConfirmProvider } from "../../../src/shared/contexts/ConfirmContext";
 import { FatalErrorProvider } from "../../../src/shared/contexts/FatalErrorContext";
 import { ApiProvider } from "../../../src/shared/contexts/ApiContext";
-import { emitKeyboard } from "../../../src/test-utils/opentuiKeyboard";
+import { emitKeyboard } from "../../test-utils/opentuiKeyboard";
 
 const projects: Project[] = [
   { id: "1", name: "Alpha", status: "running", createdAt: new Date().toISOString() } as Project,
