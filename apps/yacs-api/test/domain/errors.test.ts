@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AppError, NotFoundError, RevertError } from "./errors.js";
+import { AppError, NotFoundError, RevertError } from "../../src/domain/errors.js";
 
 describe("AppError hierarchy", () => {
   it("sets status and code", () => {

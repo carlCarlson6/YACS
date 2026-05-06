@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { createProjectFeature } from "./create-project.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
+import { createProjectFeature } from "../../../src/features/projects/create-project.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
 
 describe("createProjectFeature", () => {
   it("creates a trimmed project with generated metadata", async () => {

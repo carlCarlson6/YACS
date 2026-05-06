@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { Response } from "express";
-import { AppError } from "../../domain/errors.js";
+import { AppError } from "../../../src/domain/errors.js";
 
-vi.mock("../logger.js", () => ({
+vi.mock("../../../src/infrastructure/logger.js", () => ({
   logError: vi.fn(),
 }));
 
-import { sendError } from "./error-handler.js";
-import { logError } from "../logger.js";
+import { sendError } from "../../../src/infrastructure/http/error-handler.js";
+import { logError } from "../../../src/infrastructure/logger.js";
 
 function createResponseMock(): Response {
   const res = {

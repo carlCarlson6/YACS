@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { listProjects } from "./list-projects.js";
-import { getProject } from "./get-project.js";
-import { deleteProjectFeature } from "./delete-project.js";
-import { listProjectDeployments } from "./list-project-deployments.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
-import { NotFoundError } from "../../domain/errors.js";
+import { listProjects } from "../../../src/features/projects/list-projects.js";
+import { getProject } from "../../../src/features/projects/get-project.js";
+import { deleteProjectFeature } from "../../../src/features/projects/delete-project.js";
+import { listProjectDeployments } from "../../../src/features/projects/list-project-deployments.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
+import { NotFoundError } from "../../../src/domain/errors.js";
 
 const baseProject = {
   id: "proj_1",

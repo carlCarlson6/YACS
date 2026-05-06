@@ -1,10 +1,10 @@
 import request from "supertest";
 import express from "express";
 import { describe, expect, it, vi } from "vitest";
-import { createProjectsRouter } from "./routes.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
-import { createUnitOfWorkStub } from "../../../test/unit-of-work.stub.js";
-import { sendError } from "../../infrastructure/http/error-handler.js";
+import { createProjectsRouter } from "../../../src/features/projects/routes.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
+import { createUnitOfWorkStub } from "../../unit-of-work.stub.js";
+import { sendError } from "../../../src/infrastructure/http/error-handler.js";
 
 const baseProject = {
   id: "proj_1",

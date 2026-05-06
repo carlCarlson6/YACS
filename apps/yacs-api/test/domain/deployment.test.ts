@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildDeploymentUrl, createDeployment } from "./deployment.js";
+import { buildDeploymentUrl, createDeployment } from "../../src/domain/deployment.js";
 
 describe("createDeployment", () => {
   it("returns a deployment object with provided fields", () => {

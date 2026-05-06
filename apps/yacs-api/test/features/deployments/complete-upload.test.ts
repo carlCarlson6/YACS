@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
-import { completeUploadFeature } from "./complete-upload.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
-import { createUnitOfWorkStub } from "../../../test/unit-of-work.stub.js";
-import { NotFoundError } from "../../domain/errors.js";
+import { completeUploadFeature } from "../../../src/features/deployments/complete-upload.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
+import { createUnitOfWorkStub } from "../../unit-of-work.stub.js";
+import { NotFoundError } from "../../../src/domain/errors.js";
 
 const baseProject = {
   id: "proj_1",

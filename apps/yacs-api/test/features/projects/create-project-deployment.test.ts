@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { createProjectDeployment } from "./create-project-deployment.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
-import { createUnitOfWorkStub } from "../../../test/unit-of-work.stub.js";
-import { NotFoundError } from "../../domain/errors.js";
+import { createProjectDeployment } from "../../../src/features/projects/create-project-deployment.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
+import { createUnitOfWorkStub } from "../../unit-of-work.stub.js";
+import { NotFoundError } from "../../../src/domain/errors.js";
 
 const baseProject = {
   id: "proj_1",

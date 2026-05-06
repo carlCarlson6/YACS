@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { updateProjectFeature } from "./update-project.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
-import { NotFoundError } from "../../domain/errors.js";
+import { updateProjectFeature } from "../../../src/features/projects/update-project.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
+import { NotFoundError } from "../../../src/domain/errors.js";
 
 const existingProject = {
   id: "proj_1",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createProject } from "./project.js";
+import { createProject } from "../../src/domain/project.js";
 
 describe("createProject", () => {
   const baseInput = {

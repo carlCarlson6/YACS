@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { revertDeploymentFeature } from "./revert-deployment.js";
-import { createInMemoryRepositories } from "../../../test/in-memory-repositories.js";
-import { createUnitOfWorkStub } from "../../../test/unit-of-work.stub.js";
-import { NotFoundError, RevertError } from "../../domain/errors.js";
+import { revertDeploymentFeature } from "../../../src/features/deployments/revert-deployment.js";
+import { createInMemoryRepositories } from "../../in-memory-repositories.js";
+import { createUnitOfWorkStub } from "../../unit-of-work.stub.js";
+import { NotFoundError, RevertError } from "../../../src/domain/errors.js";
 
 const timestamps = {
   created: "2024-01-01T00:00:00.000Z",
