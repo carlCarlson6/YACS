@@ -7,7 +7,7 @@
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "jsxImportSource": "@opentui/react",
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
     "composite": false,
     "rootDir": "src",
     "outDir": "dist"

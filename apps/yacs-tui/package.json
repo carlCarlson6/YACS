@@ -9,7 +9,9 @@
     "build": "bun build src/index.tsx --outdir dist --target node",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "start": "node dist/index.js",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@opentui/core": "latest",
@@ -19,13 +21,18 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^25.6.0",
     "@types/react": "^19.0.0",
+    "jsdom": "^26.1.0",
     "eslint": "^9.8.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "globals": "^15.11.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^2.1.4"
   }
 }

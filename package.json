@@ -11,7 +11,9 @@
     "build:api": "npm run build -w @yacs/api",
     "build:tui": "npm run build -w @yacs/tui",
     "dev:api": "npm run dev -w @yacs/api",
-    "start:api": "npm run start -w @yacs/api"
+    "start:api": "npm run start -w @yacs/api",
+    "test": "npm run test -w @yacs/tui",
+    "test:tui": "npm run test -w @yacs/tui"
   },
   "devDependencies": {
     "@types/node": "^25.6.0"

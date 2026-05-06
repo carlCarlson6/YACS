@@ -18,10 +18,17 @@ npm run build            # build all packages
 npm run build -w @yacs/api   # build single package
 npm run dev -w @yacs/api     # dev watch mode (tsx watch)
 npm run start -w @yacs/api   # run built output
+npm run test -w @yacs/tui     # run Vitest unit suite for the TUI
+npm run test:watch -w @yacs/tui  # watch mode for the TUI tests
 ```
 
 **Dependency order for builds:** `@yacs/schemas` → `@yacs/api`, `@yacs/tui`
 Both api and tui reference schemas via tsconfig `references`.
+
+## Testing
+
+- TUI tests use Vitest + Testing Library. Helpers live in `apps/yacs-tui/src/test-utils` (`renderWithProviders`, `opentuiKeyboard`).
+- Run `npm run test -w @yacs/tui` (or `npm run test:watch -w @yacs/tui`) to execute the suite; root `npm test` proxies to the TUI tests.
 
 ## Tech Stack
 

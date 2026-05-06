@@ -10,27 +10,49 @@ type ProjectsContextValue = {
   fetchProjects: () => Promise<void>;
 };
 
-const ProjectsContext = createContext<ProjectsContextValue | null>(null);
+export const ProjectsContext = createContext<ProjectsContextValue | null>(null);
 
-export function ProjectsProvider({ children }: { children: ReactNode }) {
+type ProjectsProviderProps = {
+  children: ReactNode;
+  initialProjects?: Project[];
+  fetcher?: typeof fetch;
+  autoLoad?: boolean;
+};
+
+export function ProjectsProvider({
+  children,
+  initialProjects = [],
+  fetcher,
+  autoLoad = true,
+}: ProjectsProviderProps) {
   const apiUrl = useApiUrl();
   const { setStatus } = useStatus();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const fetchImpl = fetcher ?? globalThis.fetch;
 
   const fetchProjects = useCallback(async () => {
+    if (!fetchImpl) {
+      setStatus("! fetch unavailable");
+      return;
+    }
     try {
-      const res = await fetch(`${apiUrl}/projects`);
+      const res = await fetchImpl(`${apiUrl}/projects`);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
       const data = projectListSchema.parse(await res.json());
       setProjects(data);
       setStatus("> projects loaded");
     } catch {
       setStatus("! error fetching projects");
     }
-  }, [apiUrl, setStatus]);
+  }, [apiUrl, fetchImpl, setStatus]);
 
   useEffect(() => {
-    void fetchProjects();
-  }, [fetchProjects]);
+    if (autoLoad) {
+      void fetchProjects();
+    }
+  }, [autoLoad, fetchProjects]);
 
   return (
     <ProjectsContext.Provider value={{ projects, fetchProjects }}>
