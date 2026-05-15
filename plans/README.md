@@ -15,6 +15,7 @@ This directory contains implementation plans for the YACS (Yet Another Cloud Ser
 | [PLAN-007](./PLAN-007-yacs-api-postgres-drizzle.md) | Move `@yacs/api` to PostgreSQL with Drizzle ORM and local Docker Compose support | Completed |
 | [PLAN-008](./PLAN-008-clerk-authentication.md) | Add Clerk authentication for the TUI and API with request authorization and user scoping | Pending |
 | [PLAN-009](./PLAN-009-azure-blob-storage-uploads.md) | Azure Blob Storage for deployment file uploads with SAS URLs | Completed |
+| [PLAN-010](./PLAN-010-yacs-web.md) | Create yacs-web React + Vite + Tailwind web app to view/manage projects | Pending |
 
 ## Plan Naming Convention
 
